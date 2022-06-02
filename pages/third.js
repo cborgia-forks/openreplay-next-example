@@ -44,7 +44,7 @@ export default function Third({ projectKey }) {
   );
 }
 
-export function getStaticProp() {
+export function getStaticProps() {
   return {
     props: {
       projectKey: process.env.OPENREPLAY_PROJECT_KEY,

@@ -1,62 +1,59 @@
-import Tracker from '@openreplay/tracker';
-import {useEffect} from 'react'
+import Tracker from "@openreplay/tracker";
+import { useEffect } from "react";
 
 class MyTracker {
-    static instance;
-    static trackerState = {
-        started: false
+  static instance;
+  static trackerState = {
+    started: false,
+  };
+
+  static startTracking() {
+    const trackerConfig = {
+      projectKey: process.env.NEXT_PUBLIC_OPENREPLAY_PROJECT_KEY,
+    };
+
+    console.log("Tracker configuration: ");
+    console.log(trackerConfig);
+
+    if (!MyTracker.instance) {
+      MyTracker.instance = new Tracker(trackerConfig);
     }
-
-    static startTracking() {
-        const trackerConfig = {
-            projectKey: process.env.NEXT_PUBLIC_OPENREPLAY_PROJECT_KEY
-        }
-
-        console.log("Tracker configuration: ")
-        console.log(trackerConfig)
-
-        if(!MyTracker.instance) {
-            MyTracker.instance = new Tracker(trackerConfig);
-        }
-        if(!MyTracker.trackerState.started) {
-            MyTracker.instance.start()
-            MyTracker.trackerState.started = true
-        }
+    if (!MyTracker.trackerState.started) {
+      MyTracker.instance.start();
+      MyTracker.trackerState.started = true;
     }
+  }
 }
-
 
 function initializeTracker() {
-    const trackerConfig = {
-        projectKey: process.env.NEXT_PUBLIC_OPENREPLAY_PROJECT_KEY
-    }
+  const trackerConfig = {
+    projectKey: process.env.NEXT_PUBLIC_OPENREPLAY_PROJECT_KEY,
+  };
 
-    let trackerInstance = null;
-    console.log("Callling initialize tracker")
+  let trackerInstance = null;
+  console.log("Callling initialize tracker");
 
-    console.log("Tracker configuration: ")
-    console.log(trackerConfig)
-    return () => {
-        console.log("Actually starting to track....")
-        if(!trackerInstance) {
-            trackerInstance = new Tracker(trackerConfig);
-            trackerInstance.start()
-        }
+  console.log("Tracker configuration: ");
+  console.log(trackerConfig);
+  return () => {
+    console.log("Actually starting to track....");
+    if (!trackerInstance) {
+      trackerInstance = new Tracker(trackerConfig);
+      trackerInstance.start();
     }
-    
+  };
 }
 
-const tracker = initializeTracker()
+const tracker = initializeTracker();
 
 export default function Trackable(Component) {
-    const TrackedComponent = ({...props}) => {
-        useEffect(() => {
-            //MyTracker.startTracking()
-            tracker()
-        }, [])   
+  const TrackedComponent = ({ ...props }) => {
+    useEffect(() => {
+      //MyTracker.startTracking()
+      tracker();
+    }, []);
 
-        return (<Component {...props} />)
-
-    }
-    return TrackedComponent
+    return <Component {...props} />;
+  };
+  return TrackedComponent;
 }

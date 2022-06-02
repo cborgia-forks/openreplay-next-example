@@ -1,9 +1,8 @@
-import { useEffect } from 'react'
-import '../styles/globals.css'
-import { startTracker } from '../utils/tracker'
+import { useEffect } from "react";
+import "../styles/globals.css";
+import { startTracker } from "../utils/tracker";
 
 function MyApp({ Component, pageProps }) {
-
   /*
   useEffect( () => {
     startTracker({
@@ -11,11 +10,8 @@ function MyApp({ Component, pageProps }) {
     })
   }, [])
   */
-  
-  return <Component {...pageProps} />
+
+  return <Component {...pageProps} />;
 }
 
-
-
-
-export default MyApp
+export default MyApp;
